@@ -69,7 +69,6 @@ Edit `deadman.conf` to customize:
 - `TELEGRAM_API_KEY`: Your Telegram bot token
 - `TELEGRAM_CHAT_ID`: Your Telegram chat ID
 - `TIMEOUT_SECONDS`: How long to wait for a response before taking action (default: 120)
-- `DESTRUCTIVE`: Whether to use destructive mode (true) or lockdown mode (false)
 
 ## Security Modes
 
@@ -90,7 +89,7 @@ When an unauthorized login is detected:
 - Completely removes the user account and all data
 - No recovery possible
 
-Enable with the `-destructive` flag or by setting `DESTRUCTIVE=true` in config.
+Enable with the `-destructive` flag.
 
 ## Testing
 
