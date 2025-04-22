@@ -130,7 +130,7 @@ When someone logs into your system:
 
 1. Clone the repository:
    ```
-   git clone https://github.com/username/deadman-security.git
+   git clone https://github.com/dx314/deadman.git
    cd deadman-security
    ```
 
