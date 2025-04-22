@@ -15,7 +15,6 @@ NC="\033[0m" # No Color
 
 # Default values
 INSTALL_DIR="/usr/local/bin"
-CONFIG_DIR="$HOME/.cto.bot"
 BINARY_NAME="deadman"
 SOURCE_BINARY="./deadman"  # Assumes it's in current directory
 SSH_ONLY=false
@@ -31,7 +30,7 @@ show_usage() {
     echo "  -b, --binary PATH   Path to deadman binary (default: ./deadman)"
     echo
     echo -e "${BOLD}Examples:${NC}"
-    echo "  $0 --user alex                # Install for both SSH and GDM logins for user 'alex'"
+    echo "  $0 --user user                # Install for both SSH and GDM logins for user 'user'"
     echo "  $0 --ssh-only                 # Install for SSH logins only"
     echo "  $0 --binary /path/to/deadman  # Use specific binary location"
     exit 1
@@ -130,7 +129,7 @@ echo -e "✅ SSH configuration completed and service restarted\n"
 # Set up GDM login if not SSH only and user specified
 if [ "$SSH_ONLY" = false ] && [ -n "$GDM_USER" ]; then
     echo -e "${BOLD}${GREEN}[3/4] Setting up GDM login detection for user $GDM_USER...${NC}"
-    
+
     # Check if user exists
     if ! id "$GDM_USER" &>/dev/null; then
         echo -e "${RED}Error:${NC} User $GDM_USER does not exist, skipping GDM setup"
@@ -139,7 +138,7 @@ if [ "$SSH_ONLY" = false ] && [ -n "$GDM_USER" ]; then
         USER_HOME=$(eval echo ~$GDM_USER)
         USER_SYSTEMD_DIR="$USER_HOME/.config/systemd/user"
         mkdir -p "$USER_SYSTEMD_DIR"
-        
+
         # Create systemd service file
         cat > "$USER_SYSTEMD_DIR/deadman-security.service" << EOL
 [Unit]
@@ -153,13 +152,13 @@ ExecStart=$INSTALL_DIR/$BINARY_NAME -login-type=desktop
 [Install]
 WantedBy=graphical-session.target
 EOL
-        
+
         # Set proper ownership
         chown -R "$GDM_USER":"$GDM_USER" "$USER_SYSTEMD_DIR"
-        
+
         # Enable the service for the user
         sudo -u "$GDM_USER" XDG_RUNTIME_DIR=/run/user/$(id -u "$GDM_USER") systemctl --user enable deadman-security.service
-        
+
         echo -e "✅ GDM login detection set up for user $GDM_USER"
         echo -e "📄 Service file created at $USER_SYSTEMD_DIR/deadman-security.service\n"
     fi
