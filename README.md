@@ -42,7 +42,6 @@ When someone logs into your system:
    TELEGRAM_API_KEY="your_telegram_bot_token"
    TELEGRAM_CHAT_ID="your_chat_id"
    TIMEOUT_SECONDS=120
-   DESTRUCTIVE=false
    ```
 
 3. Build the application:
